@@ -1,5 +1,5 @@
 {
-    "name": "fastnet/translation-services",
+    "name": "rkwebsolution/translation-services",
     "description": "Multi-service translation package for Laravel. Supports Google, Azure, DeepL, Yandex, Amazon, and OpenAI through a unified manager, service provider, and facade",
     "version": "1.0.0",
     "type": "library",
