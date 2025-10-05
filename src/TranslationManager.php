@@ -20,7 +20,6 @@ class TranslationManager
     public function __construct(array $config = [])
     {
         $this->config = $config ?: config('translation-services', []);
-        dd('aya');
     }
 
     /**
