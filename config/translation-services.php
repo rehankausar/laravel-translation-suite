@@ -76,6 +76,14 @@ return [
             'timeout' => 30,
         ],
 
+        'ollama' => [
+            'enabled'      => env('OLLAMA_TRANSLATE_ENABLED', false),
+            'display_name' => 'Ollama (Local AI)',
+            'host'         => env('OLLAMA_HOST', 'http://localhost:11434'),
+            'model'        => env('OLLAMA_MODEL', 'qwen2:7b'),
+            'timeout'      => env('OLLAMA_TIMEOUT', 120),
+        ],
+
     ],
 
     /*

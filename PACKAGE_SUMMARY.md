@@ -2,7 +2,7 @@
 
 ## Overview
 
-A comprehensive, production-ready Laravel translation package supporting 6 major translation APIs with seamless Spatie Translatable integration.
+A comprehensive, production-ready Laravel translation package supporting 7 translation providers with seamless Spatie Translatable integration, including hosted APIs and local Ollama models.
 
 ## Package Structure
 
@@ -32,6 +32,8 @@ packages/translation-services/
 └── .env.example                               # Environment variables example
 ```
 
+The services directory includes `OllamaService.php` for local AI translation through Ollama's OpenAI-compatible chat API.
+
 ## Supported Services
 
 | Service | Quality | Speed | Cost | Best For |
@@ -42,6 +44,7 @@ packages/translation-services/
 | **OpenAI (ChatGPT)** | Excellent | Medium | Medium-High | Creative, context-aware content |
 | **Yandex** | Good | Fast | Low | Russian, Eastern European languages |
 | **Amazon Translate** | Very Good | Fast | Low | AWS integration, scalable |
+| **Ollama** | Model-dependent | Medium | Local compute | Private/local AI translation |
 
 ## Key Features
 
@@ -53,6 +56,7 @@ All services implement the same interface, making switching seamless:
 Translator::translate('Hello World', 'ar');
 Translator::useService('deepl')->translate('Hello World', 'ar');
 Translator::useService('openai')->translate('Hello World', 'ar');
+Translator::useService('ollama')->translate('Hello World', 'ar');
 ```
 
 ### 2. Model Translation
@@ -205,6 +209,12 @@ AMAZON_TRANSLATE_ENABLED=true
 AWS_ACCESS_KEY_ID=xxx
 AWS_SECRET_ACCESS_KEY=xxx
 AWS_DEFAULT_REGION=us-east-1
+
+# Ollama
+OLLAMA_TRANSLATE_ENABLED=true
+OLLAMA_HOST=http://localhost:11434
+OLLAMA_MODEL=qwen2:7b
+OLLAMA_TIMEOUT=120
 ```
 
 ## Real-World Examples
@@ -285,6 +295,7 @@ Translator::useService()
 - **DeepL**: Best quality for European languages
 - **OpenAI**: Best for context-aware translations
 - **Azure**: Best for enterprise/technical
+- **Ollama**: Best for private local translation without external API calls
 
 ### 2. Batch Processing
 Use `translateBatch()` for multiple texts to reduce API calls
@@ -413,6 +424,11 @@ Potential additions:
 - Bulk translation dashboard
 
 ## Version History
+
+**v1.1.0** - Ollama local AI translation support
+- Added Ollama service driver
+- Added Ollama configuration and environment variables
+- Updated docs and examples for local model translation
 
 **v1.0.0** - Initial release
 - 6 translation services

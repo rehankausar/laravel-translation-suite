@@ -6,6 +6,7 @@
 3. [Batch Translation](#batch-translation)
 4. [Service Selection](#service-selection)
 5. [Real-World Scenarios](#real-world-scenarios)
+6. [Local AI Translation with Ollama](#local-ai-translation-with-ollama)
 
 ## Basic Usage
 
@@ -188,6 +189,10 @@ $result = Translator::useService('openai')
 // Azure for enterprise
 $result = Translator::useService('azure')
     ->translate('Technical documentation', 'fr');
+
+// Ollama for private local AI translation
+$result = Translator::useService('ollama')
+    ->translate('Internal policy document', 'ur');
 ```
 
 ### Service-Specific Translation
@@ -478,7 +483,7 @@ class TranslationController extends Controller
             'text' => 'required|string|max:5000',
             'target_language' => 'required|string|size:2',
             'source_language' => 'nullable|string|size:2',
-            'service' => 'nullable|string|in:google,deepl,azure,openai,yandex,amazon'
+            'service' => 'nullable|string|in:google,deepl,azure,openai,yandex,amazon,ollama'
         ]);
 
         $translator = Translator::class;
@@ -503,7 +508,7 @@ class TranslationController extends Controller
             'texts.*' => 'required|string|max:5000',
             'target_language' => 'required|string|size:2',
             'source_language' => 'nullable|string|size:2',
-            'service' => 'nullable|string|in:google,deepl,azure,openai,yandex,amazon'
+            'service' => 'nullable|string|in:google,deepl,azure,openai,yandex,amazon,ollama'
         ]);
 
         $translator = Translator::class;
@@ -572,6 +577,43 @@ $creative = Translator::useService('openai')->translate($text, 'es');
 
 // General content → Google (fast, reliable)
 $general = Translator::useService('google')->translate($text, 'ar');
+
+// Private/internal content -> Ollama (local model)
+$private = Translator::useService('ollama')->translate($text, 'ur');
+```
+
+## Local AI Translation with Ollama
+
+Ollama is useful when translations should run locally without sending content to a third-party API. Configure the service and use it like any other driver:
+
+```env
+TRANSLATION_SERVICE=ollama
+OLLAMA_TRANSLATE_ENABLED=true
+OLLAMA_HOST=http://localhost:11434
+OLLAMA_MODEL=qwen2:7b
+OLLAMA_TIMEOUT=120
+```
+
+```php
+use Fastnet\TranslationServices\Facades\Translator;
+
+$result = Translator::useService('ollama')
+    ->translate('Welcome to the admin dashboard', 'ar', 'en');
+
+if ($result['success']) {
+    echo $result['translated_text'];
+}
+```
+
+For batch translation, the Ollama driver processes each text through the configured local model:
+
+```php
+$results = Translator::useService('ollama')
+    ->translateBatch([
+        'Create invoice',
+        'Send reminder',
+        'Payment received',
+    ], 'ur', 'en');
 ```
 
 ### 2. Error Handling

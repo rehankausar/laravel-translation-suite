@@ -1,10 +1,10 @@
 # Translation Services Package
 
-A comprehensive Laravel package for multi-service translation with support for Google Translate, Azure Translator, DeepL, OpenAI, Yandex Translate, and Amazon Translate.
+A comprehensive Laravel package for multi-service translation with support for Google Translate, Azure Translator, DeepL, OpenAI, Yandex Translate, Amazon Translate, and Ollama.
 
 ## Features
 
-- **Multiple Translation Services**: Supports 6 major translation APIs
+- **Multiple Translation Services**: Supports 7 translation providers, including hosted APIs and local Ollama models
 - **Unified Interface**: Single API for all services
 - **Spatie Translatable Integration**: Works seamlessly with `spatie/laravel-translatable`
 - **Plug-and-Play**: Easy service switching via configuration
@@ -83,6 +83,12 @@ AMAZON_TRANSLATE_ENABLED=true
 AWS_ACCESS_KEY_ID=your-access-key
 AWS_SECRET_ACCESS_KEY=your-secret-key
 AWS_DEFAULT_REGION=us-east-1
+
+# Ollama (Local AI)
+OLLAMA_TRANSLATE_ENABLED=true
+OLLAMA_HOST=http://localhost:11434
+OLLAMA_MODEL=qwen2:7b
+OLLAMA_TIMEOUT=120
 ```
 
 ## Usage
@@ -114,6 +120,10 @@ $result = Translator::useService('deepl')
 // Use OpenAI
 $result = Translator::useService('openai')
     ->translate('Hello World', 'fr');
+
+// Use Ollama locally
+$result = Translator::useService('ollama')
+    ->translate('Hello World', 'ur');
 ```
 
 ### Batch Translation
@@ -380,6 +390,11 @@ class TranslateProductsCommand extends Command
 - Custom terminology support
 - Scalable
 
+### Ollama (Local AI)
+- Local model-based translations through Ollama's OpenAI-compatible API
+- No external translation API key required
+- Configurable host, model, and timeout
+
 ## Language Codes
 
 Common language codes supported by most services:
@@ -448,6 +463,19 @@ dd($result);
 3. Extend `BaseTranslationService`
 4. Add to `TranslationManager::driver()` method
 5. Add configuration in `config/translation-services.php`
+
+## Version History
+
+**v1.1.0** - Ollama local AI translation support
+- Added `ollama` translation driver
+- Added Ollama environment and configuration options
+- Updated service discovery and documentation for local AI translation
+
+**v1.0.0** - Initial release
+- 6 hosted translation services
+- Spatie Translatable integration
+- Batch translation
+- Model translation
 
 ## License
 

@@ -55,9 +55,31 @@ DEEPL_PRO=false
 OPENAI_TRANSLATE_ENABLED=true
 OPENAI_API_KEY=your-openai-api-key-here
 OPENAI_MODEL=gpt-3.5-turbo
+
+# Ollama (Recommended for private local AI translations)
+OLLAMA_TRANSLATE_ENABLED=true
+OLLAMA_HOST=http://localhost:11434
+OLLAMA_MODEL=qwen2:7b
+OLLAMA_TIMEOUT=120
 ```
 
 ## Step 3: Update Existing Models
+
+### Optional: Use Ollama as the Default Service
+
+Ollama uses a local model through Ollama's OpenAI-compatible chat API. Make sure Ollama is running and the configured model is available before setting it as the default:
+
+```bash
+ollama pull qwen2:7b
+ollama serve
+```
+
+```env
+TRANSLATION_SERVICE=ollama
+OLLAMA_TRANSLATE_ENABLED=true
+OLLAMA_HOST=http://localhost:11434
+OLLAMA_MODEL=qwen2:7b
+```
 
 ### Example: Product Model
 
@@ -625,6 +647,19 @@ public function translateNotes(Request $request, Invoice $invoice)
 GOOGLE_TRANSLATE_API_KEY=your-key-here
 ```
 
+For Ollama, verify the local server and model:
+
+```bash
+ollama list
+```
+
+```env
+TRANSLATION_SERVICE=ollama
+OLLAMA_TRANSLATE_ENABLED=true
+OLLAMA_HOST=http://localhost:11434
+OLLAMA_MODEL=qwen2:7b
+```
+
 ### Issue: "Translation fails silently"
 
 **Solution**: Check logs:
@@ -655,6 +690,7 @@ class YourModel extends Model
 3. Set up automated translation on model creation
 4. Add translation status indicators in admin panel
 5. Create translation audit trail
+6. Use Ollama for private/local translation workflows where external API calls are not desired
 
 ## Support
 

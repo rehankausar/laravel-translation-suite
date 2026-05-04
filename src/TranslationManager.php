@@ -9,6 +9,7 @@ use Fastnet\TranslationServices\Services\DeepLService;
 use Fastnet\TranslationServices\Services\YandexTranslateService;
 use Fastnet\TranslationServices\Services\AmazonTranslateService;
 use Fastnet\TranslationServices\Services\OpenAIService;
+use Fastnet\TranslationServices\Services\OllamaService;
 use Illuminate\Support\Facades\Log;
 
 class TranslationManager
@@ -64,6 +65,7 @@ class TranslationManager
             'yandex' => new YandexTranslateService($config),
             'amazon' => new AmazonTranslateService($config),
             'openai' => new OpenAIService($config),
+            'ollama' => new OllamaService($config),
             default => throw new \Exception("Unknown translation service: {$name}"),
         };
 
