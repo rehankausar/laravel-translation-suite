@@ -19,7 +19,6 @@ class DeepLService extends BaseTranslationService implements TranslationServiceI
             $params = [
                 'text' => [$text],
                 'target_lang' => $this->normalizeLanguageCode($targetLanguage),
-                'auth_key' => $this->config['api_key'],
             ];
 
             if ($sourceLanguage) {
@@ -29,7 +28,8 @@ class DeepLService extends BaseTranslationService implements TranslationServiceI
             $apiUrl = $this->config['pro'] ?? false ? self::API_URL_PRO : self::API_URL_FREE;
 
             $response = $this->makeRequest('POST', $apiUrl, [
-                'form_params' => $params,
+                'headers' => ['Authorization' => 'DeepL-Auth-Key ' . $this->config['api_key']],
+                'json' => $params,
             ]);
 
             if (!isset($response['translations'][0])) {
@@ -63,7 +63,6 @@ class DeepLService extends BaseTranslationService implements TranslationServiceI
             $params = [
                 'text' => $texts,
                 'target_lang' => $this->normalizeLanguageCode($targetLanguage),
-                'auth_key' => $this->config['api_key'],
             ];
 
             if ($sourceLanguage) {
@@ -73,7 +72,8 @@ class DeepLService extends BaseTranslationService implements TranslationServiceI
             $apiUrl = $this->config['pro'] ?? false ? self::API_URL_PRO : self::API_URL_FREE;
 
             $response = $this->makeRequest('POST', $apiUrl, [
-                'form_params' => $params,
+                'headers' => ['Authorization' => 'DeepL-Auth-Key ' . $this->config['api_key']],
+                'json' => $params,
             ]);
 
             if (!isset($response['translations'])) {
