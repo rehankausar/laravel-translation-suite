@@ -25,11 +25,12 @@ class DeepLService extends BaseTranslationService implements TranslationServiceI
                 $params['source_lang'] = $this->normalizeLanguageCode($sourceLanguage);
             }
 
-            if (!empty($this->config['glossary_id'])) {
+            $isPro = $this->config['pro'] ?? false;
+            if ($isPro && !empty($this->config['glossary_id'])) {
                 $params['glossary_id'] = $this->config['glossary_id'];
             }
 
-            $apiUrl = $this->config['pro'] ?? false ? self::API_URL_PRO : self::API_URL_FREE;
+            $apiUrl = $isPro ? self::API_URL_PRO : self::API_URL_FREE;
 
             $response = $this->makeRequest('POST', $apiUrl, [
                 'headers' => ['Authorization' => 'DeepL-Auth-Key ' . $this->config['api_key']],
@@ -73,11 +74,12 @@ class DeepLService extends BaseTranslationService implements TranslationServiceI
                 $params['source_lang'] = $this->normalizeLanguageCode($sourceLanguage);
             }
 
-            if (!empty($this->config['glossary_id'])) {
+            $isPro = $this->config['pro'] ?? false;
+            if ($isPro && !empty($this->config['glossary_id'])) {
                 $params['glossary_id'] = $this->config['glossary_id'];
             }
 
-            $apiUrl = $this->config['pro'] ?? false ? self::API_URL_PRO : self::API_URL_FREE;
+            $apiUrl = $isPro ? self::API_URL_PRO : self::API_URL_FREE;
 
             $response = $this->makeRequest('POST', $apiUrl, [
                 'headers' => ['Authorization' => 'DeepL-Auth-Key ' . $this->config['api_key']],
